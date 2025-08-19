@@ -12,7 +12,7 @@ import { AdvancedAnalyticsComponent } from './components/advanced-analytics.comp
 import { UtilizationInsightsComponent } from './components/utilization-insights.component';
 import { RouteVisualizationComponent } from './components/route-visualization.component';
 import { NavbarComponent } from './components/navbar.component';
-import { NgChartsModule } from 'ng2-charts';
+import { NgChartsModule, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { NgChartsModule } from 'ng2-charts';
     RouteVisualizationComponent
   ],
   imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, NgChartsModule],
-  providers: [],
+  providers: [provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
