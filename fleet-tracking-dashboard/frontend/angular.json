@@ -27,7 +27,11 @@
               "src/styles.scss",
               "node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "leaflet",
+              "sockjs-client"
+            ]
           },
           "configurations": {
             "production": {
