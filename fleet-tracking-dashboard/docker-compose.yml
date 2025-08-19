@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: fleet-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fleetdb
+      MYSQL_USER: fleet
+      MYSQL_PASSWORD: fleet
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    command: ["--default-authentication-plugin=mysql_native_password", "--mysqlx=0"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+volumes:
+  dbdata:
