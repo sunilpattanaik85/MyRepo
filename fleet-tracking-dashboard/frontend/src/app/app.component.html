@@ -1,7 +1,7 @@
 <div class="container grid" style="grid-template-columns: 1fr;">
   <app-navbar></app-navbar>
 
-  <div class="grid" style="grid-template-columns: repeat(5, 1fr);">
+  <div class="grid" style="grid-template-columns: repeat(5, minmax(0, 1fr));">
     <app-summary-cards></app-summary-cards>
   </div>
 
@@ -10,13 +10,13 @@
     <app-map-view></app-map-view>
   </div>
 
-  <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+  <div class="grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
     <div class="card"><div class="section-title">Corridor Analytics</div><app-corridor-analytics></app-corridor-analytics></div>
     <div class="card"><div class="section-title">Performance Metrics</div><app-performance-metrics></app-performance-metrics></div>
     <div class="card"><div class="section-title">Utilization & Maintenance</div><app-utilization-insights></app-utilization-insights></div>
   </div>
 
-  <div class="grid" style="grid-template-columns: 2fr 1fr;">
+  <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 12px;">
     <div class="card"><div class="section-title">Vehicles</div><app-vehicle-table></app-vehicle-table></div>
     <div class="card"><div class="section-title">Advanced Analytics</div><app-advanced-analytics></app-advanced-analytics></div>
   </div>
