@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { ApiService, Vehicle } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-corridor-analytics', template: `
 <div class="grid" style="grid-template-columns: 1fr 1fr;">
@@ -17,7 +18,7 @@ export class CorridorAnalyticsComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   async ngOnInit() {
-    try { this.vehicles = (await this.api.getVehicles().toPromise()) || []; } catch { this.vehicles = []; }
+    try { this.vehicles = (await firstValueFrom(this.api.getVehicles())) || []; } catch { this.vehicles = []; }
     const byDir: Record<string, number> = {};
     this.vehicles.forEach(v => {
       const d = v.corridor?.direction || 'UNKNOWN';

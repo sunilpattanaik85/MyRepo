@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService, Vehicle } from '../services/api.service';
-import { Subscription, interval } from 'rxjs';
+import { Subscription, interval, firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-vehicle-table', template: `
 <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
@@ -45,7 +45,7 @@ export class VehicleTableComponent implements OnInit, OnDestroy {
   ngOnDestroy() { this.sub?.unsubscribe(); }
   async load() {
     try {
-      const list = (await this.api.getVehicles(this.q).toPromise()) || [];
+      const list = (await firstValueFrom(this.api.getVehicles(this.q))) || [];
       this.vehicles = this.status ? list.filter(v => v.status === this.status) : list;
     } catch {
       this.vehicles = [];

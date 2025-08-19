@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ApiService, Vehicle } from '../services/api.service';
 import { WsService } from '../services/ws.service';
 import * as L from 'leaflet';
+import { firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-map-view', template: `<div id="map" class="leaflet-container"></div>` })
 export class MapViewComponent implements AfterViewInit, OnDestroy {
@@ -45,7 +46,7 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
     };
 
     try {
-      update((await this.api.getVehicles().toPromise()) || []);
+      update((await firstValueFrom(this.api.getVehicles())) || []);
     } catch {}
     try {
       await this.ws.connect();

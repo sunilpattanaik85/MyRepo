@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-utilization-insights', template: `
 <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
@@ -16,7 +17,7 @@ export class UtilizationInsightsComponent implements OnInit {
   constructor(private api: ApiService) {}
   async ngOnInit() {
     let vehicles = [] as any[];
-    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
+    try { vehicles = (await firstValueFrom(this.api.getVehicles())) || []; } catch {}
     vehicles.forEach(v => this.counts[v.status] = (this.counts[v.status] || 0) + 1);
     const lowFuel = vehicles.filter((v: any) => (v.fuelLevel || 0) < 25).length;
     this.recommendation = lowFuel > 0 ? `${lowFuel} vehicles low on fuel. Schedule refuel and preventive maintenance.` : 'Fleet healthy. Maintain regular checks.';

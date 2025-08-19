@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { ApiService } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-performance-metrics', template: `
 <div class="grid" style="grid-template-columns: 1fr 1fr;">
@@ -14,7 +15,7 @@ export class PerformanceMetricsComponent implements OnInit {
   constructor(private api: ApiService) {}
   async ngOnInit() {
     let vehicles = [] as any[];
-    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
+    try { vehicles = (await firstValueFrom(this.api.getVehicles())) || []; } catch {}
     const buckets = [0,0,0,0];
     vehicles.forEach(v => {
       const f = v.fuelLevel || 0; const b = f < 25 ? 0 : f < 50 ? 1 : f < 75 ? 2 : 3; buckets[b]++;

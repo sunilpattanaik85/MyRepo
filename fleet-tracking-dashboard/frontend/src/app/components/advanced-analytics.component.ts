@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({ selector: 'app-advanced-analytics', template: `
 <div class="grid" style="grid-template-columns: 1fr; gap: 8px;">
@@ -19,7 +20,7 @@ export class AdvancedAnalyticsComponent implements OnInit {
   constructor(private api: ApiService) {}
   async ngOnInit() {
     let vehicles = [] as any[];
-    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
+    try { vehicles = (await firstValueFrom(this.api.getVehicles())) || []; } catch {}
     vehicles.forEach(v => {
       this.typeDist[v.type] = (this.typeDist[v.type] || 0) + 1;
       const d = v.corridor?.direction || 'UNKNOWN';
@@ -31,7 +32,7 @@ export class AdvancedAnalyticsComponent implements OnInit {
       .sort((a,b) => b.dist - a.dist)
       .slice(0,5);
     try {
-      const alerts = (await this.api.getAlerts().toPromise()) || [];
+      const alerts = (await firstValueFrom(this.api.getAlerts())) || [];
       alerts.forEach(a => this.alertCounts[a.category] = (this.alertCounts[a.category] || 0) + 1);
     } catch {}
     const lowFuel = vehicles.filter(v => (v.fuelLevel || 0) < 25).length;

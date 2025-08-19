@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, Route, Vehicle } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 import * as L from 'leaflet';
 
 @Component({ selector: 'app-route-visualization', template: `
@@ -17,14 +18,14 @@ export class RouteVisualizationComponent implements OnInit {
   map?: L.Map; layer?: L.Polyline<any>; stats?: { distance: number; avgSpeed: number; durationH: number };
   constructor(private api: ApiService) {}
   async ngOnInit() {
-    try { this.vehicles = (await this.api.getVehicles().toPromise()) || []; } catch { this.vehicles = []; }
+    try { this.vehicles = (await firstValueFrom(this.api.getVehicles())) || []; } catch { this.vehicles = []; }
     this.map = L.map('route-map').setView([37.7749, -122.4194], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(this.map);
   }
   async load() {
     if (!this.selectedId) return;
     let routes: Route[] = [];
-    try { routes = (await this.api.getRoutesByVehicle(this.selectedId).toPromise()) || []; } catch { routes = []; }
+    try { routes = (await firstValueFrom(this.api.getRoutesByVehicle(this.selectedId))) || []; } catch { routes = []; }
     if (!routes.length) return;
     const r = routes[routes.length - 1];
     const v = r.vehicle; if (!v?.lastLat || !v?.lastLng) return;
