@@ -3,10 +3,10 @@ import { ApiService } from '../services/api.service';
 
 @Component({ selector: 'app-utilization-insights', template: `
 <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
-  <div class="card">Active: {{counts.ACTIVE || 0}}</div>
-  <div class="card">Idle: {{counts.IDLE || 0}}</div>
-  <div class="card">Maint.: {{counts.MAINTENANCE || 0}}</div>
-  <div class="card">Offline: {{counts.OFFLINE || 0}}</div>
+  <div class="card">Active: {{counts['ACTIVE'] || 0}}</div>
+  <div class="card">Idle: {{counts['IDLE'] || 0}}</div>
+  <div class="card">Maint.: {{counts['MAINTENANCE'] || 0}}</div>
+  <div class="card">Offline: {{counts['OFFLINE'] || 0}}</div>
 </div>
 <div class="card" style="margin-top:8px;">Recommendations: {{recommendation}}</div>
 `})
