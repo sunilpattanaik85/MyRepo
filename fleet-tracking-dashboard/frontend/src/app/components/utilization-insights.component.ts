@@ -15,9 +15,10 @@ export class UtilizationInsightsComponent implements OnInit {
   recommendation = '';
   constructor(private api: ApiService) {}
   async ngOnInit() {
-    const vehicles = await this.api.getVehicles().toPromise() || [];
+    let vehicles = [] as any[];
+    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
     vehicles.forEach(v => this.counts[v.status] = (this.counts[v.status] || 0) + 1);
-    const lowFuel = vehicles.filter(v => (v.fuelLevel || 0) < 25).length;
+    const lowFuel = vehicles.filter((v: any) => (v.fuelLevel || 0) < 25).length;
     this.recommendation = lowFuel > 0 ? `${lowFuel} vehicles low on fuel. Schedule refuel and preventive maintenance.` : 'Fleet healthy. Maintain regular checks.';
   }
 }

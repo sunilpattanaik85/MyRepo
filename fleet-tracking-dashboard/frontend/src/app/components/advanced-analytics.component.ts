@@ -18,7 +18,8 @@ export class AdvancedAnalyticsComponent implements OnInit {
   reco = '';
   constructor(private api: ApiService) {}
   async ngOnInit() {
-    const vehicles = await this.api.getVehicles().toPromise() || [];
+    let vehicles = [] as any[];
+    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
     vehicles.forEach(v => {
       this.typeDist[v.type] = (this.typeDist[v.type] || 0) + 1;
       const d = v.corridor?.direction || 'UNKNOWN';
@@ -29,8 +30,10 @@ export class AdvancedAnalyticsComponent implements OnInit {
       .map(v => ({ vehicleId: v.vehicleId, dist: (v.lastSpeed || 0) * 0.5 }))
       .sort((a,b) => b.dist - a.dist)
       .slice(0,5);
-    const alerts = await this.api.getAlerts().toPromise() || [];
-    alerts.forEach(a => this.alertCounts[a.category] = (this.alertCounts[a.category] || 0) + 1);
+    try {
+      const alerts = (await this.api.getAlerts().toPromise()) || [];
+      alerts.forEach(a => this.alertCounts[a.category] = (this.alertCounts[a.category] || 0) + 1);
+    } catch {}
     const lowFuel = vehicles.filter(v => (v.fuelLevel || 0) < 25).length;
     this.reco = lowFuel ? `${lowFuel} vehicles have low fuel. Prioritize refueling and check maintenance.` : 'No critical alerts detected.';
   }

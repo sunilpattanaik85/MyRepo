@@ -17,7 +17,7 @@ export class CorridorAnalyticsComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   async ngOnInit() {
-    this.vehicles = await this.api.getVehicles().toPromise() || [];
+    try { this.vehicles = (await this.api.getVehicles().toPromise()) || []; } catch { this.vehicles = []; }
     const byDir: Record<string, number> = {};
     this.vehicles.forEach(v => {
       const d = v.corridor?.direction || 'UNKNOWN';

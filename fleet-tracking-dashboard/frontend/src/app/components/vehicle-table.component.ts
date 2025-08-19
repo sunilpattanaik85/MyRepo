@@ -44,8 +44,12 @@ export class VehicleTableComponent implements OnInit, OnDestroy {
   async ngOnInit() { this.load(); this.sub = interval(30000).subscribe(() => this.autoRefresh && this.load()); }
   ngOnDestroy() { this.sub?.unsubscribe(); }
   async load() {
-    const list = await this.api.getVehicles(this.q).toPromise() || [];
-    this.vehicles = this.status ? list.filter(v => v.status === this.status) : list;
+    try {
+      const list = (await this.api.getVehicles(this.q).toPromise()) || [];
+      this.vehicles = this.status ? list.filter(v => v.status === this.status) : list;
+    } catch {
+      this.vehicles = [];
+    }
   }
 }
 

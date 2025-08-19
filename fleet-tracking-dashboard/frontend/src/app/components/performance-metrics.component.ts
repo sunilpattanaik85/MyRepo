@@ -13,7 +13,8 @@ export class PerformanceMetricsComponent implements OnInit {
   speedFuelScatter: ChartConfiguration['data'] = { datasets: [{ label: 'Speed vs Fuel', data: [] as any[] }] };
   constructor(private api: ApiService) {}
   async ngOnInit() {
-    const vehicles = await this.api.getVehicles().toPromise() || [];
+    let vehicles = [] as any[];
+    try { vehicles = (await this.api.getVehicles().toPromise()) || []; } catch {}
     const buckets = [0,0,0,0];
     vehicles.forEach(v => {
       const f = v.fuelLevel || 0; const b = f < 25 ? 0 : f < 50 ? 1 : f < 75 ? 2 : 3; buckets[b]++;

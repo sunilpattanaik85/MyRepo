@@ -44,9 +44,13 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
       });
     };
 
-    update(await this.api.getVehicles().toPromise() || []);
-    await this.ws.connect();
-    this.ws.subscribe('/topic/vehicles', m => update(JSON.parse(m.body)));
+    try {
+      update((await this.api.getVehicles().toPromise()) || []);
+    } catch {}
+    try {
+      await this.ws.connect();
+      this.ws.subscribe('/topic/vehicles', m => update(JSON.parse(m.body)));
+    } catch {}
   }
 
   ngOnDestroy() { if (this.map) this.map.remove(); }
