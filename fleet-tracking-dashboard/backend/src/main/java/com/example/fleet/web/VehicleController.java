@@ -22,10 +22,7 @@ public class VehicleController {
 
     @GetMapping
     public List<Vehicle> all(@RequestParam(value = "q", required = false) String q) {
-        if (q == null || q.isBlank()) {
-            return vehicleRepository.findAll();
-        }
-        return vehicleRepository.search(q);
+        return vehicleRepository.search((q == null || q.isBlank()) ? null : q);
     }
 
     @GetMapping("/summary")
