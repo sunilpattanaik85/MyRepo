@@ -25,7 +25,7 @@ public class AlertController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Alert> get(@PathVariable Long id) {
+    public ResponseEntity<Alert> get(@PathVariable("id") Long id) {
         return alertRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -33,7 +33,7 @@ public class AlertController {
     public Alert create(@RequestBody Alert a) { return alertRepository.save(a); }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Alert> update(@PathVariable Long id, @RequestBody Alert a) {
+    public ResponseEntity<Alert> update(@PathVariable("id") Long id, @RequestBody Alert a) {
         return alertRepository.findById(id)
                 .map(existing -> {
                     a.setId(existing.getId());
@@ -43,7 +43,7 @@ public class AlertController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         if (alertRepository.existsById(id)) {
             alertRepository.deleteById(id);
             return ResponseEntity.noContent().build();

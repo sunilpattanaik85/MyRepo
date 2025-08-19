@@ -31,7 +31,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vehicle> get(@PathVariable Long id) {
+    public ResponseEntity<Vehicle> get(@PathVariable("id") Long id) {
         return vehicleRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -39,7 +39,7 @@ public class VehicleController {
     public Vehicle create(@RequestBody Vehicle v) { return vehicleRepository.save(v); }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vehicle> update(@PathVariable Long id, @RequestBody Vehicle v) {
+    public ResponseEntity<Vehicle> update(@PathVariable("id") Long id, @RequestBody Vehicle v) {
         return vehicleRepository.findById(id)
                 .map(existing -> {
                     v.setId(existing.getId());
@@ -49,7 +49,7 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         if (vehicleRepository.existsById(id)) {
             vehicleRepository.deleteById(id);
             return ResponseEntity.noContent().build();

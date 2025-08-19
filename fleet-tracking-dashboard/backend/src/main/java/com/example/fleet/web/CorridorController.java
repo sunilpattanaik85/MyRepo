@@ -20,7 +20,7 @@ public class CorridorController {
     public List<Corridor> all() { return corridorRepository.findAll(); }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Corridor> get(@PathVariable Long id) {
+    public ResponseEntity<Corridor> get(@PathVariable("id") Long id) {
         return corridorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -28,7 +28,7 @@ public class CorridorController {
     public Corridor create(@RequestBody Corridor c) { return corridorRepository.save(c); }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Corridor> update(@PathVariable Long id, @RequestBody Corridor c) {
+    public ResponseEntity<Corridor> update(@PathVariable("id") Long id, @RequestBody Corridor c) {
         return corridorRepository.findById(id)
                 .map(existing -> {
                     c.setId(existing.getId());
@@ -38,7 +38,7 @@ public class CorridorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         if (corridorRepository.existsById(id)) {
             corridorRepository.deleteById(id);
             return ResponseEntity.noContent().build();

@@ -25,7 +25,7 @@ public class RouteController {
     public List<Route> all() { return routeRepository.findAll(); }
 
     @GetMapping("/vehicle/{vehicleId}")
-    public ResponseEntity<List<Route>> byVehicle(@PathVariable String vehicleId,
+    public ResponseEntity<List<Route>> byVehicle(@PathVariable("vehicleId") String vehicleId,
                                                  @RequestParam(value = "start", required = false) Instant start,
                                                  @RequestParam(value = "end", required = false) Instant end) {
         return vehicleRepository.findByVehicleId(vehicleId).map(v -> {
