@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint"
+    "cli": "node ./node_modules/@angular/cli/bin/ng",
+    "start": "npm run cli -- serve",
+    "build": "npm run cli -- build",
+    "test": "npm run cli -- test",
+    "lint": "npm run cli -- lint"
   },
   "private": true,
   "dependencies": {

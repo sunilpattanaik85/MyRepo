@@ -11,12 +11,14 @@ import { PerformanceMetricsComponent } from './components/performance-metrics.co
 import { AdvancedAnalyticsComponent } from './components/advanced-analytics.component';
 import { UtilizationInsightsComponent } from './components/utilization-insights.component';
 import { RouteVisualizationComponent } from './components/route-visualization.component';
+import { NavbarComponent } from './components/navbar.component';
 import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     SummaryCardsComponent,
+    NavbarComponent,
     MapViewComponent,
     CorridorAnalyticsComponent,
     VehicleTableComponent,
